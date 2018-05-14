@@ -1,0 +1,2 @@
+tornado==5.0.2
+WeRoBot==1.4.1
