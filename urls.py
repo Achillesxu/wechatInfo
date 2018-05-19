@@ -15,8 +15,7 @@ import handle.interface
 
 
 urls = [
-    (r'/nn_sms/status/ruidong/send', handle.interface),
-    (r'/nn_sms/status/mengwang/send', handle.interface),
+    (r'/msg', handle.interface.ReceiveMsgHandle),
     (r'.*', handle.interface.NoneHandle)
 ]
 
