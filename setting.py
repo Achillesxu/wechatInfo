@@ -24,8 +24,8 @@ TOKEN_PERIODIC = 100 * 1000  # 每100分钟请求一次token
 TOKEN_REQ_TIMEOUT = 25  # 请求超时时间25秒
 # #################################server log configuration#######################################################
 LOG_NAME = 'WE_PUBLIC'
-LOG_FILE_NAME = '{}/{}.log'.format(os.path.dirname((os.path.abspath(__file__))), LOG_NAME)
-# LOG_FILE_NAME = '{}/{}.log'.format('/var/log/wepubliclog', LOG_NAME)
+# LOG_FILE_NAME = '{}/{}.log'.format(os.path.dirname((os.path.abspath(__file__))), LOG_NAME)
+LOG_FILE_NAME = '{}/{}.log'.format('/var/log/wepubliclog', LOG_NAME)
 
 LOGGING_CONFIG = dict(
     version=1,
