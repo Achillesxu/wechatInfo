@@ -18,6 +18,7 @@ from datetime import timedelta
 import signal
 import logging.config
 from logging.handlers import RotatingFileHandler
+import json
 
 from tornado.options import define, options, parse_command_line
 import tornado.web
@@ -31,6 +32,8 @@ import setting
 # 具体运行时，需要在调用应用程序时填写参数，python application.py --ip=172.168.12.12 --port=16002
 define('ip', default='127.0.0.1', type=str, help="server's ip")
 define('port', default=12002, type=int, help="the app using port")
+define('appid', default='', type=str, help="wechat appid")
+define('appsecret', default='', type=str, help="wechat appsecret")
 
 LOG_NAME = 'TOKEN_PERIODIC'
 # LOG_FILE_NAME = f'/var/log/wepubliclog/{LOG_NAME}.log'  # 服务器文件夹地址
@@ -60,16 +63,27 @@ class Application(tornado.web.Application):
 
 async def asy_request():
     try:
-        req_url = f''
-        AsyncHTTPClient().fetch(req_url)
+        req_url = f'https://sz.api.weixin.qq.com/cgi-bin/token?' \
+                  f'grant_type=client_credential&' \
+                  f'appid={setting.APP_ID}&' \
+                  f'secret={setting.APP_SECRET}'
+        req_resp = await AsyncHTTPClient().fetch(req_url)
     except HTTPError as e:
         r_log.error(f'request <{req_url}>, error:<{e.code}><{e.message}>')
     except Exception as e:
         r_log.error(f'request <{req_url}>, error:<{e}>')
+    else:
+        resp_dict = json.loads(req_resp.body, encoding='utf-8')
+        if 'errcode' in resp_dict:
+            r_log.error(f'request access token error code <{resp_dict["errcode"]}>, error msg <{resp_dict["errmsg"]}>')
+        else:
+            r_log.info(f'request access token <{resp_dict["access_token"]}>, expires_in <{resp_dict["expires_in"]}>')
 
 
 def main_entrance():
     parse_command_line()
+    setting.APP_ID = options.appid
+    setting.APP_SECRET = options.appsecret
 
     app = Application()
     m_server = app.listen(port=options.port, address=options.ip, xheaders=True)
@@ -119,4 +133,7 @@ def main_entrance():
 
 
 if __name__ == '__main__':
-    main_entrance()
+    # main_entrance()
+    import asyncio
+    i_loop = asyncio.get_event_loop()
+    i_loop.run_until_complete(asy_request())
