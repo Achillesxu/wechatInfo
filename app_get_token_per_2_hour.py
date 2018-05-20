@@ -133,7 +133,7 @@ def main_entrance():
 
 
 if __name__ == '__main__':
-    # main_entrance()
-    import asyncio
-    i_loop = asyncio.get_event_loop()
-    i_loop.run_until_complete(asy_request())
+    main_entrance()
+    # import asyncio
+    # i_loop = asyncio.get_event_loop()
+    # i_loop.run_until_complete(asy_request())
