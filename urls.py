@@ -19,5 +19,9 @@ urls = [
     (r'.*', handle.interface.NoneHandle)
 ]
 
+p_urls = [
+    (r'.*', handle.interface.NoneHandle),
+]
+
 if __name__ == '__main__':
     pass

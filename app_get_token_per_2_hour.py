@@ -56,9 +56,10 @@ r_log.setLevel(logging.INFO)
 
 class Application(tornado.web.Application):
     def __init__(self):
+        from urls import p_urls
         settings = dict()
         self.p_handle = None
-        super().__init__([[]], **settings)
+        super().__init__(p_urls, **settings)
 
 
 async def asy_request():

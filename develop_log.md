@@ -9,3 +9,6 @@
     2. 添加/msg接口用于接收微信消息
     3. 添加app_get_token_per_2_hour.py周期获取微信的access_token
     4. 测试获取access token的接口
+
+## 2018-05-20
+    1. 修改app_get_token_per_2_hour.py及相关文件
