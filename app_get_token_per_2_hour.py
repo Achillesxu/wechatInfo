@@ -129,6 +129,8 @@ def main_entrance():
     app.p_handle = tornado.ioloop.PeriodicCallback(periodic_request, setting.TOKEN_PERIODIC)
 
     app.p_handle.start()
+    # 启动马上获取一次access token
+    tornado.gen.with_timeout(timedelta(seconds=setting.TOKEN_REQ_TIMEOUT), asy_request())
 
     tornado.ioloop.IOLoop.current().start()
 
