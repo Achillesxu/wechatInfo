@@ -21,6 +21,8 @@ API_TOKEN = 'ABC3C027B63A54E4E66B0E8F734E6238'
 APP_ID = ''
 APP_SECRET = ''
 
+API_TOKEN_TEST = 'ABC3C027B63A54E4E66B0E8F734E6238'
+
 # #################################channel token##################################################################
 TOKEN_PERIODIC = 100 * 60 * 1000  # 每100分钟请求一次token
 TOKEN_REQ_TIMEOUT = 25  # 请求超时时间25秒

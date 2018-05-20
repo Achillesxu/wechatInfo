@@ -56,7 +56,7 @@ class ReceiveMsgHandleTest(RequestHandler):
             r_log.info(f't_timestamp <{in_ts}>')
             r_log.info(f't_nonce <{in_nonce}>')
             r_log.info(f't_echostr <{in_echo_str}>')
-            s_list = [in_ts, in_nonce, setting.API_TOKEN]
+            s_list = [in_ts, in_nonce, setting.API_TOKEN_TEST]
             t_sha1 = hashlib.sha1()
             t_sha1.update(bytes(''.join(sorted(s_list)), encoding='utf-8'))
             r_log.info(f'sha1({"".join(sorted(s_list))}----><{t_sha1.hexdigest()}>)')
