@@ -36,8 +36,8 @@ define('appid', default='', type=str, help="wechat appid")
 define('appsecret', default='', type=str, help="wechat appsecret")
 
 LOG_NAME = 'TOKEN_PERIODIC'
-# LOG_FILE_NAME = f'/var/log/wepubliclog/{LOG_NAME}.log'  # 服务器文件夹地址
-LOG_FILE_NAME = '{}/{}.log'.format(os.path.dirname((os.path.abspath(__file__))), LOG_NAME)
+LOG_FILE_NAME = f'/var/log/wepubliclog/{LOG_NAME}.log'  # 服务器文件夹地址
+# LOG_FILE_NAME = '{}/{}.log'.format(os.path.dirname((os.path.abspath(__file__))), LOG_NAME)
 LOG_MAX_BYTES = 50 * 1024 * 1024
 LOG_BACK_COUNT = 10
 
@@ -85,6 +85,8 @@ def main_entrance():
     parse_command_line()
     setting.APP_ID = options.appid
     setting.APP_SECRET = options.appsecret
+    r_log.info(f'appid: {options.appid}')
+    r_log.info(f'appsecret:{options.appsecret}')
 
     app = Application()
     m_server = app.listen(port=options.port, address=options.ip, xheaders=True)
