@@ -31,7 +31,8 @@ we_config = config.Config({
     'TOKEN': setting.API_TOKEN,
     'APP_ID': setting.APP_ID,
     'APP_SECRET': setting.APP_SECRET,
-    'ENCODING_AES_KEY': setting.APP_AES_KEY
+    'ENCODING_AES_KEY': setting.APP_AES_KEY,
+    'SESSION_STORAGE': None
 })
 
 
