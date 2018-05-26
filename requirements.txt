@@ -1,3 +1,4 @@
 tornado==5.0.2
 WeRoBot==1.4.1
 redis==2.10.6
+cryptography==2.2.2
