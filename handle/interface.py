@@ -34,10 +34,6 @@ we_config = config.Config({
     'ENCODING_AES_KEY': setting.APP_AES_KEY
 })
 
-r_log.info(we_config['APP_ID'])
-r_log.info(we_config['APP_SECRET'])
-r_log.info(we_config['ENCODING_AES_KEY'])
-
 
 class WxRobot(WeRoBot):
     @cached_property
