@@ -28,7 +28,8 @@ import setting
 r_log = logging.getLogger()
 we_config = config.Config({
     'APP_ID': setting.APP_ID,
-    'APP_SECRET': setting.APP_SECRET
+    'APP_SECRET': setting.APP_SECRET,
+    'ENCODING_AES_KEY': setting.APP_AES_KEY
 })
 
 

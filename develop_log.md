@@ -18,3 +18,4 @@
 ## 2018-05-26
     1. 决定基于werebot开发，熟悉库
     2. 接入WeRobot，重写接口
+    3. 消息采用加密形式，参数由app_get_token_per_2_hour.py 传入，supervisor调用脚本内
