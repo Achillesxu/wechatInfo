@@ -20,7 +20,10 @@ class TextHandle:
     @staticmethod
     def get_url(in_msg):
         b_str = db.hget('电影', in_msg.content)
-        s_str = b_str.decode('utf-8')
+        if b_str:
+            s_str = b_str.decode('utf-8')
+        else:
+            s_str = '找不到，请联系wechat:xushiyin1986'
         return TextReply(in_msg, content=s_str)
 
 

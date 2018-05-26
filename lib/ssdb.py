@@ -38,4 +38,4 @@ def get_key(in_k_name):
 
 if __name__ == '__main__':
     h_name = f'电影'
-    print(db.hget(h_name, '隐藏人物'))
+    print(db.hget(h_name, '隐人物'))
