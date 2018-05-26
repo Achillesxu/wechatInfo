@@ -12,15 +12,17 @@
 @desc :
 """
 import handle.interface
+from handle.interface import we_robot
+from werobot.contrib.tornado import make_handler
 
 
 urls = [
-    (r'/msg', handle.interface.ReceiveMsgHandle),
+    (r'/msg', make_handler(we_robot)),
     (r'.*', handle.interface.NoneHandle)
 ]
 
 p_urls = [
-    (r'', handle.interface.GetAccessToken),
+    (r'/get_access_token', handle.interface.GetAccessToken),
     (r'.*', handle.interface.NoneHandle),
 ]
 

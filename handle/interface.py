@@ -17,11 +17,54 @@ import logging
 
 from tornado.web import RequestHandler
 from tornado.httpclient import AsyncHTTPClient, HTTPError
+from werobot import WeRoBot, config
+from werobot.client import Client
+from werobot.utils import cached_property
+import requests
 
-from lib.ssdb import db
+from lib.ssdb import db, get_key
 import setting
 
 r_log = logging.getLogger()
+we_config = config.Config({
+    'APP_ID': setting.APP_ID,
+    'APP_SECRET': setting.APP_SECRET
+})
+
+
+class WxRobot(WeRoBot):
+    @cached_property
+    def client(self):
+        return WxClient(self.config)
+
+
+class WxClient(Client):
+    def get_access_token(self):
+        a_t_k = get_key(setting.ACCESS_TOKEN_KEY)
+        if a_t_k:
+            return a_t_k
+        else:
+            while True:
+                req_url = f'http://127.0.0.1:{setting.PERIODIC_SERVER_PORT}/get_access_token'
+                ret_val = requests.get(req_url)
+                if ret_val.status_code == 200:
+                    t_a_t_k = get_key(setting.ACCESS_TOKEN_KEY)
+                    if t_a_t_k:
+                        return t_a_t_k
+                else:
+                    r_log.error(f'request <{req_url}> failed,'
+                                f' error code <{ret_val.status_code}>,'
+                                f' error reason <{ret_val.reason}>')
+                    continue
+
+
+we_robot = WxRobot(logger=r_log, config=we_config)
+
+
+@we_robot.handler
+def hello(message):
+    r_log.info(message.content)
+    return 'xushiyin say hello'
 
 
 class ReceiveMsgHandle(RequestHandler):
@@ -58,7 +101,7 @@ class GetAccessToken(RequestHandler):
             req_resp = await AsyncHTTPClient().fetch(req_url)
         except HTTPError as e:
             r_log.error(f'request <{req_url}>, error:<{e.code}><{e.message}>')
-            self.set_status(e.code)
+            self.set_status(e.code, reason=e.message)
             return
         except Exception as e:
             r_log.error(f'request <{req_url}>, error:<{e}>')

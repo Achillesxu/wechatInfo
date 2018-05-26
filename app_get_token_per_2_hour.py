@@ -92,6 +92,8 @@ def main_entrance():
     r_log.info(f'appid: {options.appid}')
     r_log.info(f'appsecret:{options.appsecret}')
 
+    setting.PERIODIC_SERVER_PORT = options.port
+
     app = Application()
     m_server = app.listen(port=options.port, address=options.ip, xheaders=True)
 
