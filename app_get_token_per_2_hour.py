@@ -33,9 +33,6 @@ import setting
 # 具体运行时，需要在调用应用程序时填写参数，python application.py --ip=172.168.12.12 --port=16002
 define('ip', default='127.0.0.1', type=str, help="server's ip")
 define('port', default=12002, type=int, help="the app using port")
-define('appid', default='', type=str, help="wechat appid")
-define('appsecret', default='', type=str, help="wechat appsecret")
-define('appaeskey', default='', type=str, help="wechat AES Key")
 
 LOG_NAME = 'TOKEN_PERIODIC'
 LOG_FILE_NAME = f'/var/log/wepubliclog/{LOG_NAME}.log'  # 服务器文件夹地址
@@ -88,12 +85,6 @@ async def asy_request():
 
 def main_entrance():
     parse_command_line()
-    setting.APP_ID = options.appid
-    setting.APP_SECRET = options.appsecret
-    setting.APP_AES_KEY = options.appaeskey
-    r_log.info(f'appid: {options.appid}')
-    r_log.info(f'appsecret:{options.appsecret}')
-    r_log.info(f'appaeskey:{options.appaeskey}')
 
     setting.PERIODIC_SERVER_PORT = options.port
 
