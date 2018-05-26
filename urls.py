@@ -16,11 +16,11 @@ import handle.interface
 
 urls = [
     (r'/msg', handle.interface.ReceiveMsgHandle),
-    (r'/msg_test', handle.interface.ReceiveMsgHandleTest),
     (r'.*', handle.interface.NoneHandle)
 ]
 
 p_urls = [
+    (r'', handle.interface.GetAccessToken),
     (r'.*', handle.interface.NoneHandle),
 ]
 

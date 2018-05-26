@@ -27,6 +27,7 @@ import tornado.httpserver
 import tornado.ioloop
 from tornado.httpclient import AsyncHTTPClient, HTTPError
 
+from lib.ssdb import db
 import setting
 
 # 具体运行时，需要在调用应用程序时填写参数，python application.py --ip=172.168.12.12 --port=16002
@@ -78,6 +79,9 @@ async def asy_request():
         if 'errcode' in resp_dict:
             r_log.error(f'request access token error code <{resp_dict["errcode"]}>, error msg <{resp_dict["errmsg"]}>')
         else:
+            # access token will disappear after 7200 second
+            db.set(setting.ACCESS_TOKEN_KEY, resp_dict["access_token"])
+            db.expire('we_chat_access_token', resp_dict["expires_in"])
             r_log.info(f'request access token <{resp_dict["access_token"]}>, expires_in <{resp_dict["expires_in"]}>')
 
 
