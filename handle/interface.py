@@ -22,6 +22,7 @@ from werobot.client import Client
 from werobot.utils import cached_property
 import requests
 
+from handle.handler import TextHandle
 from lib.ssdb import db, get_key
 import setting
 
@@ -65,12 +66,17 @@ class WxClient(Client):
 we_robot = WxRobot(logger=r_log, config=we_config)
 
 
-@we_robot.handler
-def hello(message):
-    r_log.info(message.content)
-    return 'xushiyin say hello'
+@we_robot.text
+def text_entrance(message):
+    return str(list(message.content)[::-1])
 
 
+@we_robot.image
+def image_entrance(message):
+    return message.img
+
+
+# 简单的测试接口类
 class ReceiveMsgHandle(RequestHandler):
     def get(self):
         in_sig = self.get_argument('signature', '')
