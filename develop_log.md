@@ -21,3 +21,4 @@
     3. 消息采用加密形式，参数由app_get_token_per_2_hour.py 传入，supervisor调用脚本内
     4. app_id, app_secret, app_aes_key存入数据库
     5. 调试文本及图片消息接口
+    6. 消息接口调试

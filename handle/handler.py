@@ -11,9 +11,17 @@
 @File : handler.py
 @desc : 各种消息处理类
 """
+from werobot.replies import TextReply
+
+from lib.ssdb import db
+
 
 class TextHandle:
-    pass
+    @staticmethod
+    def get_url(in_msg):
+        b_str = db.hget('电影', in_msg.content)
+        s_str = b_str.decode('utf-8')
+        return TextReply(in_msg, content=s_str)
 
 
 if __name__ == '__main__':

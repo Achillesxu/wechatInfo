@@ -68,7 +68,8 @@ we_robot = WxRobot(logger=r_log, config=we_config)
 
 @we_robot.text
 def text_entrance(message):
-    return str(list(message.content)[::-1])
+    t_reply = TextHandle.get_url(message)
+    return t_reply
 
 
 @we_robot.image
