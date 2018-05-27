@@ -36,6 +36,23 @@ def get_key(in_k_name):
         return ret_val.decode('utf-8')
 
 
+def hash_get_fields(in_key):
+    try:
+        r_list = db.hkeys(in_key)
+    except redis.RedisError as e:
+        r_log.error(f'ssdb hkeys <{in_key}> failed, error <{e}>')
+        return None
+    except OSError as e:
+        r_log.error(f'ssdb hkeys <{in_key}> failed, error <{e}>')
+        return None
+    else:
+        if r_list:
+            return [j.decode('utf-8') for j in r_list]
+        else:
+            return []
+
+
 if __name__ == '__main__':
     h_name = f'电影'
-    print(db.hget(h_name, '隐人物'))
+    for i in db.hkeys(h_name):
+        print(i.decode('utf-8'))
