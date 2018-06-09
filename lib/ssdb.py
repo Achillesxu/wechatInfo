@@ -15,22 +15,17 @@ import logging
 import redis
 
 r_log = logging.getLogger()
-db = redis.StrictRedis(host='localhost', port=8881)
-
-# db.set('hi xushiyin', 'uu')
-# print(db.get('hi xushiyin').decode('utf-8'))
-# db.execute_command('set', 'ppp', 'ret')
-# print(db.execute_command('get', 'ppp').decode('utf-8'))
+db = redis.StrictRedis(host='localhost', port=6379)
 
 
 def get_key(in_k_name):
     try:
         ret_val = db.get(in_k_name)
     except redis.RedisError as e:
-        r_log.error(f'ssdb get <{in_k_name}> failed, error <{e}>')
+        r_log.error(f'redis get <{in_k_name}> failed, error <{e}>')
         return None
     except OSError as e:
-        r_log.error(f'ssdb get <{in_k_name}> failed, error <{e}>')
+        r_log.error(f'redis get <{in_k_name}> failed, error <{e}>')
         return None
     else:
         return ret_val.decode('utf-8')
@@ -40,10 +35,10 @@ def hash_get_fields(in_key):
     try:
         r_list = db.hkeys(in_key)
     except redis.RedisError as e:
-        r_log.error(f'ssdb hkeys <{in_key}> failed, error <{e}>')
+        r_log.error(f'redis hkeys <{in_key}> failed, error <{e}>')
         return None
     except OSError as e:
-        r_log.error(f'ssdb hkeys <{in_key}> failed, error <{e}>')
+        r_log.error(f'redis hkeys <{in_key}> failed, error <{e}>')
         return None
     else:
         if r_list:

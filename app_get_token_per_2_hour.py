@@ -63,7 +63,7 @@ class Application(tornado.web.Application):
 
 async def asy_request():
     try:
-        req_url = f'https://sz.api.weixin.qq.com/cgi-bin/token?' \
+        req_url = f'https://api.weixin.qq.com/cgi-bin/token?' \
                   f'grant_type=client_credential&' \
                   f'appid={setting.APP_ID}&' \
                   f'secret={setting.APP_SECRET}'

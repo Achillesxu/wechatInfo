@@ -30,15 +30,12 @@ ACCESS_TOKEN_KEY = 'we_chat_access_token'
 
 WE_CHAT_NAME = 'Subcription4Info'
 
-MEDIA_TYPE = ['电影', '电视剧']
+MEDIA_TYPE = ['电影']
 
 # #################################channel token##################################################################
 TOKEN_PERIODIC = 100 * 60 * 1000  # 每100分钟请求一次token
 TOKEN_REQ_TIMEOUT = 25  # 请求超时时间25秒
 # #################################server log configuration#######################################################
-LOG_NAME = 'WE_PUBLIC'
-# LOG_FILE_NAME = '{}/{}.log'.format(os.path.dirname((os.path.abspath(__file__))), LOG_NAME)
-LOG_FILE_NAME = '{}/{}.log'.format('/var/log/wepubliclog', LOG_NAME)
 
 LOGGING_CONFIG = dict(
     version=1,
@@ -48,34 +45,32 @@ LOGGING_CONFIG = dict(
         }
     },
     handlers={
-        'rotate_file': {
-            'class': 'logging.handlers.RotatingFileHandler',
+        'std_stream': {
+            'class': 'logging.StreamHandler',
             'formatter': 'f_root',
             'level': logging.INFO,
-            'filename': LOG_FILE_NAME,
-            'maxBytes': 50 * 1024 * 1024,
-            'backupCount': 10,
+            'stream': 'ext://sys.stdout'
         },
     },
     loggers={
         'tornado.access': {
-            'handlers': ['rotate_file'],
+            'handlers': ['std_stream'],
             'level': logging.INFO,
             'propagate': False
         },
         'tornado.application': {
-            'handlers': ['rotate_file'],
+            'handlers': ['std_stream'],
             'level': logging.INFO,
             'propagate': False
         },
         'tornado.general': {
-            'handlers': ['rotate_file'],
+            'handlers': ['std_stream'],
             'level': logging.INFO,
             'propagate': False
         }
     },
     root={
-        'handlers': ['rotate_file'],
+        'handlers': ['std_stream'],
         'level': logging.INFO,
     },
 )
