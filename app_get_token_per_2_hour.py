@@ -35,7 +35,7 @@ define('ip', default='127.0.0.1', type=str, help="server's ip")
 define('port', default=12002, type=int, help="the app using port")
 
 LOG_NAME = 'TOKEN_PERIODIC'
-LOG_FILE_NAME = f'/var/log/wepubliclog/{LOG_NAME}.log'  # 服务器文件夹地址
+LOG_FILE_NAME = f'/var/log/supervisor/wechatperiodic/{LOG_NAME}.log'  # 服务器文件夹地址
 # LOG_FILE_NAME = '{}/{}.log'.format(os.path.dirname((os.path.abspath(__file__))), LOG_NAME)
 LOG_MAX_BYTES = 50 * 1024 * 1024
 LOG_BACK_COUNT = 10
