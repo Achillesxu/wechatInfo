@@ -14,17 +14,16 @@
 import os
 import logging
 
-from lib.ssdb import get_key
+from lib.postgresql import get_account_info
 # 服务程序在8表后关闭，程序关闭时间可能超过8秒，时间取决于事件循环中是否添加了超时函数
 MAX_WAIT_SECONDS_BEFORE_SHUTDOWN = 8
 
 PERIODIC_SERVER_PORT = 0
 
 # #################################channel token##################################################################
-API_TOKEN = 'ABC3C027B63A54E4E66B0E8F734E6238'
-APP_ID = get_key('APP_ID')
-APP_SECRET = get_key('APP_SECRET')
-APP_AES_KEY = get_key('ENCODING_AES_KEY')
+# 正式账号 a_id = 1
+# 测试账号 a_id = 2
+APP_ID, APP_SECRET, APP_AES_KEY, API_TOKEN = get_account_info(1)
 
 ACCESS_TOKEN_KEY = 'we_chat_access_token'
 

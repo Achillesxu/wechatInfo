@@ -23,7 +23,7 @@ from werobot.utils import cached_property
 import requests
 
 from handle.handler import TextHandle
-from lib.ssdb import db, get_key
+from lib.redis import db, get_key
 import setting
 
 r_log = logging.getLogger()

@@ -13,7 +13,7 @@
 """
 from werobot.replies import TextReply
 
-from lib.ssdb import db, hash_get_fields
+from lib.redis import db, hash_get_fields
 
 
 class TextHandle:

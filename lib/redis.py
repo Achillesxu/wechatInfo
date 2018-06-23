@@ -8,7 +8,7 @@
 @Author : achilles_xushy
 @contact : yuqingxushiyin@gmail.com
 @Site : 
-@File : ssdb.py
+@File : redis.py
 @desc : 使用redis.py连接连接ssdb数据库，返回的数据都是
 """
 import logging
