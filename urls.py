@@ -13,7 +13,8 @@
 """
 import handle.interface
 from handle.interface import we_robot
-from werobot.contrib.tornado import make_handler
+# from werobot.contrib.tornado import make_handler
+from lib.make_async_handler import make_handler
 
 
 urls = [

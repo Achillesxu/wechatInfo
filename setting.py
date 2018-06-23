@@ -29,8 +29,6 @@ ACCESS_TOKEN_KEY = 'we_chat_access_token'
 
 WE_CHAT_NAME = 'Subcription4Info'
 
-MEDIA_TYPE = ['电影']
-
 # #################################channel token##################################################################
 TOKEN_PERIODIC = 100 * 60 * 1000  # 每100分钟请求一次token
 TOKEN_REQ_TIMEOUT = 25  # 请求超时时间25秒

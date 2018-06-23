@@ -13,28 +13,18 @@
 """
 from werobot.replies import TextReply
 
-from lib.redis import db, hash_get_fields
+from lib.turing import TuringInterface
 
 
 class TextHandle:
     @staticmethod
-    def get_category(in_msg):
-        r_list = hash_get_fields(in_msg.content)
-        if r_list:
-            r_list.append('输入以上电影名字，获取链接，点击链接播放')
-            s_str = '\n'.join(r_list)
+    def process_text(in_msg):
+        t_api = TuringInterface()
+        ret_text = t_api.text_api(in_msg.content)
+        if ret_text:
+            return TextReply(in_msg, content=ret_text)
         else:
-            s_str = f'{in_msg.content} 分类下没有内容'
-        return TextReply(in_msg, content=s_str)
-
-    @staticmethod
-    def get_url(in_msg):
-        b_str = db.hget('电影', in_msg.content)
-        if b_str:
-            s_str = b_str.decode('utf-8')
-        else:
-            s_str = '找不到，请联系wechat:xushiyin1986'
-        return TextReply(in_msg, content=s_str)
+            return TextReply(in_msg, content='服务有点问题，稍后再试')
 
 
 if __name__ == '__main__':

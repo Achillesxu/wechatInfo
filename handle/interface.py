@@ -66,15 +66,9 @@ class WxClient(Client):
 we_robot = WxRobot(logger=r_log, config=we_config)
 
 
-@we_robot.filter(*setting.MEDIA_TYPE)
-def text_get_category_content(message):
-    t_reply = TextHandle.get_category(message)
-    return t_reply
-
-
 @we_robot.text
 def text_entrance(message):
-    t_reply = TextHandle.get_url(message)
+    t_reply = TextHandle.process_text(message)
     return t_reply
 
 
