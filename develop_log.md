@@ -33,3 +33,4 @@
     1. 添加postgresql接口，将相关的密码存储于表中
     2. 添加异步入口函数make_handler
     3. 添加图灵接口函数
+    4. werobot不支持异步，改成同步，使用requests

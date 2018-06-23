@@ -67,8 +67,8 @@ we_robot = WxRobot(logger=r_log, config=we_config)
 
 
 @we_robot.text
-async def text_entrance(message):
-    t_reply = await TextHandle.process_text(message)
+def text_entrance(message):
+    t_reply = TextHandle.process_text(message)
     return t_reply
 
 
