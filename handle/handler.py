@@ -18,9 +18,9 @@ from lib.turing import TuringInterface
 
 class TextHandle:
     @staticmethod
-    def process_text(in_msg):
+    async def process_text(in_msg):
         t_api = TuringInterface()
-        ret_text = t_api.text_api(in_msg.content)
+        ret_text = await t_api.text_api(in_msg.content)
         if ret_text:
             return TextReply(in_msg, content=ret_text)
         else:
