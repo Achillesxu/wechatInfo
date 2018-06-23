@@ -27,7 +27,7 @@ import tornado.httpserver
 import tornado.ioloop
 from tornado.httpclient import AsyncHTTPClient, HTTPError
 
-from lib.ssdb import db
+from lib.redis import db
 import setting
 
 # 具体运行时，需要在调用应用程序时填写参数，python application.py --ip=172.168.12.12 --port=16002
