@@ -68,6 +68,7 @@ class DataAccessLayer:
 
 
 dal = DataAccessLayer()
+dal.connect_db(echo=True, pool_recycle=3600)
 
 
 def get_account_info(in_id):
@@ -77,6 +78,5 @@ def get_account_info(in_id):
 
 
 if __name__ == '__main__':
-    dal.connect_db()
     print(get_account_info(1))
 

@@ -11,11 +11,9 @@
 @File : application.py
 @desc :
 """
-import sys
 import time
 import signal
 import logging.config
-import traceback
 
 from tornado.options import define, options, parse_command_line
 import tornado.web
@@ -26,7 +24,6 @@ import tornado.httpserver
 import tornado.ioloop
 
 import setting
-from lib.postgresql import dal
 
 # 具体运行时，需要在调用应用程序时填写参数，python application.py --ip=172.168.12.12 --port=16002
 define('ip', default='127.0.0.1', type=str, help="server's ip")
@@ -48,12 +45,6 @@ def main_entrance():
 
     app = Application()
     m_server = app.listen(port=options.port, address=options.ip, xheaders=True)
-    try:
-        dal.connect_db(echo=True, pool_recycle=3600)
-    except Exception:
-        r_log.error(traceback.format_exc())
-        r_log.info('database connect error, system exit')
-        sys.exit(-1)
 
     def shutdown():
         r_log.info('Stopping wechat info server')
@@ -73,7 +64,7 @@ def main_entrance():
                 io_loop.add_timeout(now + 1, stop_loop)
             else:
                 io_loop.stop()
-                r_log.info('status server Shutdown')
+                r_log.info('wechat server Shutdown')
 
         stop_loop()
 
@@ -86,7 +77,7 @@ def main_entrance():
 
     tornado.ioloop.IOLoop.current().start()
 
-    r_log.info("status server Exit...")
+    r_log.info("wechat server Exit...")
 
 
 if __name__ == '__main__':
