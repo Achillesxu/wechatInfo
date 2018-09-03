@@ -20,7 +20,7 @@ r_log = logging.getLogger()
 
 
 def load_config_from_json_file():
-    with open('../config.json') as fp:
+    with open('/var/www/WeChatPublic/config.json') as fp:
         params = json.load(fp)
         return params
 
