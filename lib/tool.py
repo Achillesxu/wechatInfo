@@ -11,16 +11,28 @@
 @File : tool.py
 @desc :
 """
+import json
+import logging
+import traceback
 from xmltodict import parse
+
+r_log = logging.getLogger()
+
+
+def load_config_from_json_file():
+    with open('../config.json') as fp:
+        params = json.load(fp)
+        return params
 
 
 if __name__ == '__main__':
-    str_xml = """<xml>
- <ToUserName><![CDATA[粉丝号]]></ToUserName>
- <FromUserName><![CDATA[公众号]]></FromUserName>
- <CreateTime>1460541339</CreateTime>
- <MsgType><![CDATA[text]]></MsgType>
- <Content><![CDATA[test]]></Content>
- </xml>"""
-    for k, v in parse(str_xml).items():
-        print(k, v)
+ #    str_xml = """<xml>
+ # <ToUserName><![CDATA[粉丝号]]></ToUserName>
+ # <FromUserName><![CDATA[公众号]]></FromUserName>
+ # <CreateTime>1460541339</CreateTime>
+ # <MsgType><![CDATA[text]]></MsgType>
+ # <Content><![CDATA[test]]></Content>
+ # </xml>"""
+ #    for k, v in parse(str_xml).items():
+ #        print(k, v)
+    print(load_config_from_json_file())

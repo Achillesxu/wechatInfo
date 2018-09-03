@@ -8,7 +8,7 @@
 @Author : achilles_xushy
 @contact : yuqingxushiyin@gmail.com
 @Site : 
-@File : turing.py
+@File : turing_interface.py
 @desc : 图灵机器人输入类型支持文本，图片，音频，客户端信息，
         详细信息查看https://www.kancloud.cn/turing/web_api/522992
 """

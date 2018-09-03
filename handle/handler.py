@@ -13,18 +13,28 @@
 """
 from werobot.replies import TextReply
 
-from lib.turing import TuringInterface
+from lib.turing_interface import TuringInterface
+from lib.bwg_interface import BwgInterface
 
 
 class TextHandle:
     @staticmethod
-    def process_text(in_msg):
+    def turing_text(in_msg):
         t_api = TuringInterface()
         ret_text = t_api.text_api(in_msg.content)
         if ret_text:
             return TextReply(in_msg, content=ret_text)
         else:
-            return TextReply(in_msg, content='服务有点问题，稍后再试')
+            return TextReply(in_msg, content='访问图灵服务有点问题，稍后再试')
+
+    @staticmethod
+    def bwg_text(in_msg, match):
+        b_api = BwgInterface()
+        ret_text = b_api.get_request(match.group('command'))
+        if ret_text:
+            return TextReply(in_msg, content=ret_text)
+        else:
+            return TextReply(in_msg, content=f'访问BWG服务器api有点问题，稍后再试')
 
 
 if __name__ == '__main__':

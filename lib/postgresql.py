@@ -17,7 +17,6 @@ from sqlalchemy import func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, backref, sessionmaker
 
-
 Base = declarative_base()
 
 
@@ -37,8 +36,18 @@ class AccountInfo(Base):
                f' app_secret={self.app_secret}, app_aes_key={self.app_aes_key})'
 
 
+class BwgApiInfo(Base):
+    """
+    搬瓦工api接口key
+    """
+    __tablename__ = 'bwg_api'
+    id = Column(Integer(), primary_key=True, autoincrement=True)
+    veid = Column(String(32), index=True, unique=True)
+    api_key = Column(String(64))
+
+
 class DataAccessLayer:
-    def __init__(self, in_conn_str='postgresql+psycopg2://achilles_pgsql:Filter@1986@47.104.229.96/wechat'):
+    def __init__(self, in_conn_str=''):
         self._conn_str = in_conn_str
         self.engine = None
         self._Session = None
@@ -55,7 +64,7 @@ class DataAccessLayer:
     def connect_db(self, **kwargs):
         self.engine = create_engine(self.conn_str, **kwargs)
         Base.metadata.create_all(self.engine)
-        self._Session = sessionmaker(bind=self.engine)
+        self._Session = sessionmaker(bind=self.engine, autocommit=True)
         self._session = self._Session()
 
     @property
@@ -68,15 +77,8 @@ class DataAccessLayer:
 
 
 dal = DataAccessLayer()
-dal.connect_db(echo=True, pool_recycle=3600)
-
-
-def get_account_info(in_id):
-    query = dal.session.query(AccountInfo)
-    ac_info = query.filter(AccountInfo.a_id == in_id).first()
-    return ac_info.app_id, ac_info.app_secret, ac_info.app_aes_key, ac_info.app_token
 
 
 if __name__ == '__main__':
-    print(get_account_info(1))
+    pass
 

@@ -14,6 +14,7 @@
 import json
 import hashlib
 import logging
+import re
 
 from tornado.web import RequestHandler
 from tornado.httpclient import AsyncHTTPClient, HTTPError
@@ -67,8 +68,14 @@ we_robot = WxRobot(logger=r_log, config=we_config)
 
 
 @we_robot.text
-def text_entrance(message):
-    t_reply = TextHandle.process_text(message)
+def turing_text(message):
+    t_reply = TextHandle.turing_text(message)
+    return t_reply
+
+
+@we_robot.filter(re.compile(r'(?<=achilles_xushy:)(?P<command>.*)'))
+def bwg_text(message, match):
+    t_reply = TextHandle.bwg_text(message, match)
     return t_reply
 
 

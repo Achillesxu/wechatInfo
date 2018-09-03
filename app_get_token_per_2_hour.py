@@ -11,8 +11,9 @@
 @File : app_get_token_per_2_hour.py
 @desc :
 """
-import os
+import sys
 import time
+import traceback
 from datetime import datetime
 from datetime import timedelta
 import signal
@@ -25,7 +26,13 @@ import tornado.web
 import tornado.gen
 import tornado.httpserver
 import tornado.ioloop
+from tornado import util
 from tornado.httpclient import AsyncHTTPClient, HTTPError
+from sqlalchemy.exc import SQLAlchemyError
+
+from lib.postgresql import dal
+from lib.db_logic import get_account_info
+from lib.tool import load_config_from_json_file
 
 from lib.redis import db
 import setting
@@ -91,6 +98,20 @@ def main_entrance():
     app = Application()
     m_server = app.listen(port=options.port, address=options.ip, xheaders=True)
 
+    try:
+        params = load_config_from_json_file()
+    except Exception:
+        r_log.error(f'load json file failed, stack info: <{traceback.format_exc()}>')
+        sys.exit(-1)
+    else:
+        try:
+            dal.conn_str = params['connect_str']
+            dal.connect_db(echo=True, pool_recycle=3600)
+        except SQLAlchemyError:
+            r_log.error(f'postgres connect failed, stack info: <{traceback.format_exc()}> ')
+
+    setting.APP_ID, setting.APP_SECRET, setting.APP_AES_KEY, setting.API_TOKEN = get_account_info(1)
+
     def shutdown():
         r_log.info('Stopping token periodic server')
         m_server.stop()
@@ -124,7 +145,8 @@ def main_entrance():
 
     def periodic_request():
         r_log.info(f'get we public token at <{datetime.now().strftime("%Y-%m-%d %H:%M:%D")}>')
-        tornado.gen.with_timeout(timedelta(seconds=setting.TOKEN_REQ_TIMEOUT), asy_request())
+        tornado.gen.with_timeout(timedelta(seconds=setting.TOKEN_REQ_TIMEOUT), asy_request(),
+                                 quiet_exceptions=(util.TimeoutError,))
 
     app.p_handle = tornado.ioloop.PeriodicCallback(periodic_request, setting.TOKEN_PERIODIC)
 

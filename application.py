@@ -11,18 +11,23 @@
 @File : application.py
 @desc :
 """
+import sys
 import time
 import signal
 import logging.config
+import traceback
 
 from tornado.options import define, options, parse_command_line
 import tornado.web
 import tornado.gen
 import tornado.util
-
 import tornado.httpserver
 import tornado.ioloop
+from sqlalchemy.exc import SQLAlchemyError
 
+from lib.postgresql import dal
+from lib.db_logic import get_account_info
+from lib.tool import load_config_from_json_file
 import setting
 
 # 具体运行时，需要在调用应用程序时填写参数，python application.py --ip=172.168.12.12 --port=16002
@@ -45,6 +50,20 @@ def main_entrance():
 
     app = Application()
     m_server = app.listen(port=options.port, address=options.ip, xheaders=True)
+
+    try:
+        params = load_config_from_json_file()
+    except Exception:
+        r_log.error(f'load json file failed, stack info: <{traceback.format_exc()}>')
+        sys.exit(-1)
+    else:
+        try:
+            dal.conn_str = params['connect_str']
+            dal.connect_db(echo=True, pool_recycle=3600)
+        except SQLAlchemyError:
+            r_log.error(f'postgres connect failed, stack info: <{traceback.format_exc()}> ')
+
+    setting.APP_ID, setting.APP_SECRET, setting.APP_AES_KEY, setting.API_TOKEN = get_account_info(1)
 
     def shutdown():
         r_log.info('Stopping wechat info server')
