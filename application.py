@@ -64,6 +64,7 @@ def main_entrance():
             r_log.error(f'postgres connect failed, stack info: <{traceback.format_exc()}> ')
 
     setting.APP_ID, setting.APP_SECRET, setting.APP_AES_KEY, setting.API_TOKEN = get_account_info(1)
+    r_log.info(f'{setting.APP_ID}-{setting.APP_SECRET}-{setting.APP_SECRET}-{setting.APP_SECRET}')
 
     def shutdown():
         r_log.info('Stopping wechat info server')
