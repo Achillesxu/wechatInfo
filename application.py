@@ -51,20 +51,19 @@ def main_entrance():
     app = Application()
     m_server = app.listen(port=options.port, address=options.ip, xheaders=True)
 
-    try:
-        params = load_config_from_json_file()
-    except Exception:
-        r_log.error(f'load json file failed, stack info: <{traceback.format_exc()}>')
-        sys.exit(-1)
-    else:
-        try:
-            dal.conn_str = params['connect_str']
-            dal.connect_db(echo=True, pool_recycle=3600)
-        except SQLAlchemyError:
-            r_log.error(f'postgres connect failed, stack info: <{traceback.format_exc()}> ')
-
-    setting.APP_ID, setting.APP_SECRET, setting.APP_AES_KEY, setting.API_TOKEN = get_account_info(1)
-    r_log.info(f'{setting.APP_ID}-{setting.APP_SECRET}-{setting.APP_SECRET}-{setting.APP_SECRET}')
+    # try:
+    #     params = load_config_from_json_file()
+    # except Exception:
+    #     r_log.error(f'load json file failed, stack info: <{traceback.format_exc()}>')
+    #     sys.exit(-1)
+    # else:
+    #     try:
+    #         dal.conn_str = params['connect_str']
+    #         dal.connect_db(echo=True, pool_recycle=3600)
+    #     except SQLAlchemyError:
+    #         r_log.error(f'postgres connect failed, stack info: <{traceback.format_exc()}> ')
+    #
+    # setting.APP_ID, setting.APP_SECRET, setting.APP_AES_KEY, setting.API_TOKEN = get_account_info(1)
 
     def shutdown():
         r_log.info('Stopping wechat info server')

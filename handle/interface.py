@@ -11,7 +11,9 @@
 @File : interface.py
 @desc :
 """
+import sys
 import json
+import traceback
 import hashlib
 import logging
 import re
@@ -22,12 +24,31 @@ from werobot import WeRoBot, config
 from werobot.client import Client
 from werobot.utils import cached_property
 import requests
+from sqlalchemy.exc import SQLAlchemyError
+
+from lib.postgresql import dal
+from lib.db_logic import get_account_info
+from lib.tool import load_config_from_json_file
 
 from handle.handler import TextHandle
 from lib.redis import db, get_key
 import setting
 
 r_log = logging.getLogger()
+
+try:
+    params = load_config_from_json_file()
+except Exception:
+    r_log.error(f'load json file failed, stack info: <{traceback.format_exc()}>')
+    sys.exit(-1)
+else:
+    try:
+        dal.conn_str = params['connect_str']
+        dal.connect_db(echo=True, pool_recycle=3600)
+    except SQLAlchemyError:
+        r_log.error(f'postgres connect failed, stack info: <{traceback.format_exc()}> ')
+
+setting.APP_ID, setting.APP_SECRET, setting.APP_AES_KEY, setting.API_TOKEN = get_account_info(1)
 
 we_config = config.Config({
     'TOKEN': setting.API_TOKEN,
