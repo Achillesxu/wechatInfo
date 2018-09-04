@@ -52,17 +52,21 @@ class BwgInterface:
                 if req_rep.status_code == 200:
                     r_log.info(req_rep.text)
                     r_dict = req_rep.json()
-                    today_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    next_time = datetime.fromtimestamp(r_dict['data_next_reset'])
-                    total_data = r_dict['plan_monthly_data'] // (1024 * 1024 * 1024)
-                    used_data = r_dict['data_counter'] / (1024 * 1024 * 1024)
-                    ret_str = f'日期：{today_str}\n服务器地点：{r_dict["node_location"]}\n' \
-                              f'服务器数据中心：{r_dict["node_datacenter"]}\n' \
-                              f'服务器ip：{r_dict["ip_addresses"]}\n' \
-                              f'服务器当月流量：{total_data}GB\n' \
-                              f'服务器目前已经使用流量：{used_data:.3}GB\n' \
-                              f'服务器流量下次重置时间：{next_time:%Y-%m-%d %H:%M:%S}'
-                    return ret_str
+                    if r_dict['error'] == 0:
+                        today_str = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        next_time = datetime.fromtimestamp(r_dict['data_next_reset'])
+                        total_data = r_dict['plan_monthly_data'] // (1024 * 1024 * 1024)
+                        used_data = r_dict['data_counter'] / (1024 * 1024 * 1024)
+                        ret_str = f'日期：{today_str}\n服务器地点：{r_dict["node_location"]}\n' \
+                                  f'服务器数据中心：{r_dict["node_datacenter"]}\n' \
+                                  f'服务器ip：{r_dict["ip_addresses"]}\n' \
+                                  f'服务器当月流量：{total_data}GB\n' \
+                                  f'服务器目前已经使用流量：{used_data:.3}GB\n' \
+                                  f'服务器流量下次重置时间：{next_time:%Y-%m-%d %H:%M:%S}\n' \
+                                  f'服务器是否挂起：{"否" if not r_dict["suspended"] else "是"}'
+                        return ret_str
+                    else:
+                        return r_dict['message']
                 else:
                     return None
 
