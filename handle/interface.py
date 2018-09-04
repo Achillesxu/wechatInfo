@@ -58,6 +58,8 @@ we_config = config.Config({
     'SESSION_STORAGE': None
 })
 
+Text_Pat = re.compile(r'(?<=achilles_xushy:)(?P<command>.*)')
+
 
 class WxRobot(WeRoBot):
     @cached_property
@@ -88,15 +90,13 @@ class WxClient(Client):
 we_robot = WxRobot(logger=r_log, config=we_config)
 
 
-@we_robot.filter(re.compile('(?<=achilles_xushy:)(?P<command>.*)'))
-def bwg_text(message, match):
-    t_reply = TextHandle.bwg_text(message, match)
-    return t_reply
-
-
 @we_robot.text
 def turing_text(message):
-    t_reply = TextHandle.turing_text(message)
+    mat_group = Text_Pat.search(message.content)
+    if mat_group:
+        t_reply = TextHandle.bwg_text(message, mat_group)
+    else:
+        t_reply = TextHandle.turing_text(message)
     return t_reply
 
 
