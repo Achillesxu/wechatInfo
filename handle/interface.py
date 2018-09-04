@@ -94,7 +94,7 @@ def turing_text(message):
     return t_reply
 
 
-@we_robot.filter(re.compile(r'(?<=achilles_xushy:)(?P<command>.*)'))
+@we_robot.filter(re.compile('(?<=achilles_xushy:)(?P<command>.*)'))
 def bwg_text(message, match):
     t_reply = TextHandle.bwg_text(message, match)
     return t_reply
